@@ -1,0 +1,511 @@
+# ### SECTION 1 -  FILE HEADER ### #
+InitialObjectDescriptor {
+ objectDescriptorID 1
+ audioProfileLevelIndication 255
+ visualProfileLevelIndication 254
+ sceneProfileLevelIndication 1
+ graphicsProfileLevelIndication 1
+ ODProfileLevelIndication 1
+ esDescr [
+  ES_Descriptor {
+   ES_ID 1
+   decConfigDescr DecoderConfigDescriptor {
+    streamType 3
+    decSpecificInfo BIFSConfig {
+     useNames true
+     isCommandStream true
+     pixelMetric true
+     pixelWidth 1280
+     pixelHeight 720
+    }
+   }
+  }
+  ES_Descriptor {
+   ES_ID 2
+   decConfigDescr DecoderConfigDescriptor {
+    streamType 1
+   }
+  }
+ ]
+}
+# ### SECTION 2 - EXTERNPROTO / PROTO definitions ### #
+EXTERNPROTO LocImg [
+    exposedField      SFString     videoSource                ""
+    exposedField      MFString     targetResources         []
+    exposedField      MFString     targetResourcesTypes     []
+    exposedField      SFInt32      enabled                 0
+    exposedField      SFInt32        maximumDelay            200
+    exposedField      SFInt32        optimalDelay            50
+    exposedField      MFVec2f        recognitionRegion        []
+    eventOut          MFInt32      onRecognition
+    eventOut          MFVec3f      onTranslation
+    eventOut          MFRotation   onRotation
+    eventOut          SFInt32      onError
+    eventOut          SFBool        onTargetResourcesLoaded
+] "urn:inet:gpac:builtin:LocImg"
+PROTO CAMERA [
+    eventIn SFBool openCamera
+]
+{
+    Transform2D {
+        children [
+            Shape {
+                appearance Appearance { texture DEF MT MovieTexture { url [] } }
+                geometry Rectangle { size 1280 720 }
+            }
+        ]
+    }
+    DEF SCRIPT Script {
+        eventIn    SFBool openCamera IS openCamera
+        field     SFNode mt USE MT
+        url ["javascript: function openCamera(val) { if (val) { mt.url = new MFString ('hw://camera'); } } "]
+    }
+}
+# ### SECTION 3 - ARAF SCENE ### #
+OrderedGroup {
+    children [
+        # ### SECTION - VISUAL ELEMENTS ### #
+        DEF MAIN_SW Switch {
+            whichChoice 0
+            choice [
+            # ### Screen 1: Message informing the user what's going on.. ### #
+                Shape {
+                    appearance Appearance {
+                        material Material2D {
+                            emissiveColor 1 0 0
+                            filled TRUE
+                        }
+                    }
+                    # Message displayed to the user
+                    # right after the application is started
+                    geometry Text {
+                        string ["Υλικό και Δίκτυα Υπολογιστών - Β΄ ΕΠΑΛ." "____________________" 
+                                "Βιβλίο Επαυξημένης Πραγματικότητα (AR Book)!" "____________________" 
+                                "Εκκίνηση εφαρμογής..."]
+                        fontStyle FontStyle {
+                            justify ["MIDDLE" "MIDDLE"]
+                            size 42
+                        }
+                    }
+                }
+            # ### Screen 2: Camera & Detection status ### #
+                Transform2D {
+                    translation 0 0
+                    children [
+                        DEF CAMERA_INSTANCE CAMERA {}
+                        Transform2D {
+                            translation -550 240
+                            children [
+                                Shape {
+                                    appearance Appearance {
+                                        material Material2D {
+                                            emissiveColor 0.05 0 0.1
+                                            filled FALSE
+                                            lineProps LineProperties { width 0 }
+                                        }
+                                        texture DEF DETECTED_IMGTEX ImageTexture {}
+                                    }
+                                    geometry Rectangle { size 150 150 }
+                                }
+                            ]
+                        }
+                        DEF INFO_TEXT_TRANSFORM Transform2D {
+                            translation 0 0
+                            children [
+                                Shape {
+                                    appearance Appearance {
+                                        material Material2D {
+                                            emissiveColor 1 0 0
+                                            filled TRUE
+                                        }
+                                    }
+                                    geometry DEF INFO_TEXT Text {
+                                        string ["Nothing detected"]
+                                        fontStyle DEF INFO_TEXT_FT FontStyle {
+                                            justify ["MIDDLE" "MIDDLE"]
+                                            size 42
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                        # ############# VIDEO Enrichment ############# #
+						DEF VIDEO_SWITCH Switch {
+							whichChoice -1
+							choice [
+								Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE202 MovieTexture { url ["202"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE204 MovieTexture { url ["204"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE206 MovieTexture { url ["206"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE208 MovieTexture { url ["208"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE210 MovieTexture { url ["210"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE212 MovieTexture { url ["212"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE214 MovieTexture { url ["214"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE216 MovieTexture { url ["216"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE218 MovieTexture { url ["218"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE220 MovieTexture { url ["220"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE222 MovieTexture { url ["222"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE224 MovieTexture { url ["224"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE226 MovieTexture { url ["226"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE228 MovieTexture { url ["228"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+                                Shape {
+									appearance Appearance {
+										texture DEF MOVIE_TEXTURE230 MovieTexture { url ["230"] }
+									}
+									geometry Rectangle { size 800 480 }
+								}
+							]
+						}
+                    ]
+                }
+            ]
+        }
+		# ### SECTION - Non-visual elements ### #
+        DEF LOCAL_IMAGE_RECOGNITION LocImg {
+            enabled 0
+            videoSource "hw://camera"
+			targetResources ["102" "104" "106" "108" "110" "112" "114" "116" "118" "120" "122" "124" "126" "128" "130"]
+		}
+        DEF MEDIA_CONTROL202 MediaControl { url ["202"] }
+        DEF MEDIA_CONTROL204 MediaControl { url ["204"] }
+        DEF MEDIA_CONTROL206 MediaControl { url ["206"] }
+        DEF MEDIA_CONTROL208 MediaControl { url ["208"] }
+        DEF MEDIA_CONTROL210 MediaControl { url ["210"] }
+        DEF MEDIA_CONTROL212 MediaControl { url ["212"] }
+        DEF MEDIA_CONTROL214 MediaControl { url ["214"] }
+        DEF MEDIA_CONTROL216 MediaControl { url ["216"] }
+        DEF MEDIA_CONTROL218 MediaControl { url ["218"] }        
+        DEF MEDIA_CONTROL220 MediaControl { url ["220"] }        
+        DEF MEDIA_CONTROL222 MediaControl { url ["222"] } 
+        DEF MEDIA_CONTROL224 MediaControl { url ["224"] } 
+        DEF MEDIA_CONTROL226 MediaControl { url ["226"] } 
+        DEF MEDIA_CONTROL228 MediaControl { url ["228"] } 
+        DEF MEDIA_CONTROL230 MediaControl { url ["230"] } 
+		DEF SD Sound2D { source DEF AUDIO AudioSource {} }
+        DEF GLOBAL_TS TimeSensor { loop TRUE }
+        # ### SECTION - BEHAVIOUR ### #
+        DEF SCRIPT Script {
+            eventIn MFInt32    onRecognitionResult
+            eventIn SFBool     onResourcesLoaded
+            eventIn SFTime     loading
+            
+            field SFNode    js_videoSwitch 		USE VIDEO_SWITCH
+		    field SFNode    js_movieTexture202 	USE MOVIE_TEXTURE202
+            field SFNode    js_movieTexture204 	USE MOVIE_TEXTURE204
+            field SFNode    js_movieTexture206 	USE MOVIE_TEXTURE206
+            field SFNode    js_movieTexture208 	USE MOVIE_TEXTURE208
+            field SFNode    js_movieTexture210 	USE MOVIE_TEXTURE210
+            field SFNode    js_movieTexture212 	USE MOVIE_TEXTURE212
+            field SFNode    js_movieTexture214 	USE MOVIE_TEXTURE214
+            field SFNode    js_movieTexture216 	USE MOVIE_TEXTURE216            
+            field SFNode    js_movieTexture218 	USE MOVIE_TEXTURE218
+            field SFNode    js_movieTexture220 	USE MOVIE_TEXTURE220
+            field SFNode    js_movieTexture222 	USE MOVIE_TEXTURE222
+            field SFNode    js_movieTexture224 	USE MOVIE_TEXTURE224
+            field SFNode    js_movieTexture226 	USE MOVIE_TEXTURE226
+            field SFNode    js_movieTexture228 	USE MOVIE_TEXTURE228
+            field SFNode    js_movieTexture230 	USE MOVIE_TEXTURE230
+	        field SFNode    js_mc202		 	USE MEDIA_CONTROL202
+            field SFNode    js_mc204		 	USE MEDIA_CONTROL204
+            field SFNode    js_mc206		 	USE MEDIA_CONTROL206
+            field SFNode    js_mc208		 	USE MEDIA_CONTROL208
+            field SFNode    js_mc210		 	USE MEDIA_CONTROL210
+            field SFNode    js_mc212		 	USE MEDIA_CONTROL212
+            field SFNode    js_mc214		 	USE MEDIA_CONTROL214
+            field SFNode    js_mc216		 	USE MEDIA_CONTROL216
+            field SFNode    js_mc218		 	USE MEDIA_CONTROL218
+            field SFNode    js_mc220		 	USE MEDIA_CONTROL220
+            field SFNode    js_mc222		 	USE MEDIA_CONTROL222
+            field SFNode    js_mc224		 	USE MEDIA_CONTROL224
+            field SFNode    js_mc226		 	USE MEDIA_CONTROL226
+            field SFNode    js_mc228		 	USE MEDIA_CONTROL228
+            field SFNode    js_mc230		 	USE MEDIA_CONTROL230
+                        
+			field SFInt32    JS_IMG_LOAD         5
+            field SFNode     js_detImgTex        USE DETECTED_IMGTEX
+            field SFNode     js_locImgInstance   USE LOCAL_IMAGE_RECOGNITION
+            field SFNode     js_audioNode        USE AUDIO
+            field SFNode     js_mainSW           USE MAIN_SW
+            field SFNode     js_globalTS         USE GLOBAL_TS
+            field SFNode     js_cameraInstance   USE CAMERA_INSTANCE
+            field SFNode     js_imgTitleText     USE INFO_TEXT
+            field SFNode     js_imgTitleTextFt   USE INFO_TEXT_FT
+            field SFNode     js_infoTextTransform    USE INFO_TEXT_TRANSFORM
+			field MFString   js_audioDescriptorIDs 	["103" "105" "107" "109" "111" "113" "115" "117" "119" "121" "123" "125" "127" "129" "131"]
+			field MFString   js_imgDescriptorIDs 	["102","104","106","108","110","112","114","116","118","120","122","124","126","128","130"]
+			field MFString   js_imgTitles 			["Εικόνα 1.9" "Εικόνα 1.16" "Εικόνα 1.33" "Εικόνα 1.34" "Σχήμα 2.11" "Σχήμα 2.12" "Σχήμα 3.13" "Σχήμα 3.14" "Σχήμα 3.15α" "Σχήμα 3.15β" "Σχήμα 5.2" "Εικόνα 5.2" "Σχήμα 5.4" "Σχήμα 5.6" "Εικόνα 5.12"]
+			url ["javascript:
+                function initialize() {
+                    js_cameraOpened = false;
+                    js_setupComplete = false;
+                    js_secondScreen = false;
+                }
+                function onRecognitionResult(recongnitionArray, now) {
+                    js_detectedImgIdx = -1;                    
+                    
+                    for ( i = 0; i < recongnitionArray.length; ++i ) {
+                        if ( recongnitionArray[i] != 0 ) {
+                            js_detectedImgIdx = i;
+                            js_imgTitleText.string[0] = js_imgTitles[i];
+                        }
+                    }
+                    if ( js_detectedImgIdx == -1) {
+                        return;
+                    }                    
+                    js_detImgTex.url[0] = js_imgDescriptorIDs[js_detectedImgIdx];
+                    js_audioNode.url[0] = js_audioDescriptorIDs[js_detectedImgIdx];
+                                   
+                    
+                    # ### video enrichment case ### #                    
+                    js_videoSwitch.whichChoice = js_detectedImgIdx;
+
+                    if (js_detectedImgIdx == 0) {                        
+                        js_movieTexture202.stopTime = now;
+                        js_mc202.mediaStartTime = 0;
+                        js_movieTexture202.startTime = now;
+                    }
+                    else if (js_detectedImgIdx == 1) { 
+                        js_movieTexture204.stopTime = now;
+                        js_mc204.mediaStartTime = 0;
+                        js_movieTexture204.startTime = now;
+                    }
+                    else if (js_detectedImgIdx == 2) { 
+                        js_movieTexture206.stopTime = now;
+                        js_mc206.mediaStartTime = 0;
+                        js_movieTexture206.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 3) { 
+                        js_movieTexture208.stopTime = now;
+                        js_mc208.mediaStartTime = 0;
+                        js_movieTexture208.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 4) {  
+                        js_movieTexture210.stopTime = now;
+                        js_mc210.mediaStartTime = 0;
+                        js_movieTexture210.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 5) {  
+                        js_movieTexture212.stopTime = now;
+                        js_mc212.mediaStartTime = 0;
+                        js_movieTexture212.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 6) {  
+                        js_movieTexture214.stopTime = now;
+                        js_mc214.mediaStartTime = 0;
+                        js_movieTexture214.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 7) {  
+                        js_movieTexture216.stopTime = now;
+                        js_mc216.mediaStartTime = 0;
+                        js_movieTexture216.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 8) {  
+                        js_movieTexture218.stopTime = now;
+                        js_mc218.mediaStartTime = 0;
+                        js_movieTexture218.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 9) {  
+                        js_movieTexture220.stopTime = now;
+                        js_mc220.mediaStartTime = 0;
+                        js_movieTexture220.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 10) {  
+                        js_movieTexture222.stopTime = now;
+                        js_mc222.mediaStartTime = 0;
+                        js_movieTexture222.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 11) {  
+                        js_movieTexture224.stopTime = now;
+                        js_mc224.mediaStartTime = 0;
+                        js_movieTexture224.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 12) {  
+                        js_movieTexture226.stopTime = now;
+                        js_mc226.mediaStartTime = 0;
+                        js_movieTexture226.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 13) {  
+                        js_movieTexture228.stopTime = now;
+                        js_mc228.mediaStartTime = 0;
+                        js_movieTexture228.startTime = now;                        
+                    }
+                    else if (js_detectedImgIdx == 14) {  
+                        js_movieTexture230.stopTime = now;
+                        js_mc230.mediaStartTime = 0;
+                        js_movieTexture230.startTime = now;                        
+                    }                    
+                }
+                function onResourcesLoaded (val) {
+                    if (!js_cameraOpened) {
+                        js_cameraOpened = true;
+                        #js_imgTitleText.string = new MFString ('Initializing camera');
+                        js_imgTitleText.string = new MFString ('Εκκίνηση κάμερας');
+                        js_cameraInstance.openCamera = true;
+                    }
+                }
+                function loading(val) {
+                    if (js_setupComplete) { return; }
+                    if (val > JS_IMG_LOAD && !js_secondScreen) {
+                        js_secondScreen = true;
+                        js_mainSW.whichChoice = 1;
+                        #js_imgTitleText.string = new MFString ('The target images are being processed.', 'Please wait...');
+                        js_imgTitleText.string = new MFString ('Οι εικόνες που έχουν επαυξηθεί είναι υπο επεξεργασία.', 'Παρακαλώ περιμένετε...');
+                        js_locImgInstance.enabled = 1;
+                        gpac.set_orientation_landscape();
+                    }
+                    else if (js_cameraOpened) {
+                        js_globalTS.enabled = false;
+                        js_infoTextTransform.translation = new SFVec2f (-625, 340);
+                        js_imgTitleTextFt.size = 26;
+                        js_imgTitleTextFt.justify = new MFString ('BEGIN', 'MIDDLE');
+                        #js_imgTitleText.string = new MFString ('Nothing detected');
+                        js_imgTitleText.string = new MFString ('Δεν έχει ανιχνευτεί καμμία εικόνα');
+                        js_setupComplete = true;
+                    }
+                }
+            "]
+		}
+	]
+}
+# ### SECTION - ROUTES ### #
+ROUTE LOCAL_IMAGE_RECOGNITION.onRecognition TO SCRIPT.onRecognitionResult
+ROUTE LOCAL_IMAGE_RECOGNITION.onTargetResourcesLoaded TO SCRIPT.onResourcesLoaded
+ROUTE GLOBAL_TS.cycleTime TO SCRIPT.loading
+# ### SECTION - MEDIA FILES IMPORT ### #
+AT 0 {
+    UPDATE OD [
+# ### Book Chapter 1 media files (image & audio)
+ObjectDescriptor    {    objectDescriptorID    103    esDescr    [    ES_Descriptor    {    ES_ID    523    muxInfo    MuxInfo    {    fileName    "audios/Sel_21_Eik_1.9.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    102    esDescr    [    ES_Descriptor    {    ES_ID    522    muxInfo    MuxInfo    {    fileName    "images/Sel_21_Eik_1.9.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    105    esDescr    [    ES_Descriptor    {    ES_ID    525    muxInfo    MuxInfo    {    fileName    "audios/Sel_26_Eik_1.16.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    104    esDescr    [    ES_Descriptor    {    ES_ID    524    muxInfo    MuxInfo    {    fileName    "images/Sel_26_Eik_1.16.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    107    esDescr    [    ES_Descriptor    {    ES_ID    529    muxInfo    MuxInfo    {    fileName    "audios/Sel_46_Eik_1.33.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    106    esDescr    [    ES_Descriptor    {    ES_ID    528    muxInfo    MuxInfo    {    fileName    "images/Sel_46_Eik_1.33.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    109    esDescr    [    ES_Descriptor    {    ES_ID    527    muxInfo    MuxInfo    {    fileName    "audios/Sel_48_Eik_1.34.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    108    esDescr    [    ES_Descriptor    {    ES_ID    526    muxInfo    MuxInfo    {    fileName    "images/Sel_48_Eik_1.34.jpg"    }}]}
+
+# ### Book Chapter 2 media files (image & audio)
+ObjectDescriptor    {    objectDescriptorID    111    esDescr    [    ES_Descriptor    {    ES_ID    505    muxInfo    MuxInfo    {    fileName    "audios/Sel_65_Sx_2.11.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    110    esDescr    [    ES_Descriptor    {    ES_ID    504    muxInfo    MuxInfo    {    fileName    "images/Sel_65_Sx_2.11.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    113    esDescr    [    ES_Descriptor    {    ES_ID    507    muxInfo    MuxInfo    {    fileName    "audios/Sel_66_Sx_2.12.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    112    esDescr    [    ES_Descriptor    {    ES_ID    506    muxInfo    MuxInfo    {    fileName    "images/Sel_66_Sx_2.12.jpg"    }}]}
+
+# ### Book Chapter 3 media files (image & audio)
+ObjectDescriptor    {    objectDescriptorID    115    esDescr    [    ES_Descriptor    {    ES_ID    509    muxInfo    MuxInfo    {    fileName    "audios/Sel_94_Sx_3.13.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    114    esDescr    [    ES_Descriptor    {    ES_ID    508    muxInfo    MuxInfo    {    fileName    "images/Sel_94_Sx_3.13.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    117    esDescr    [    ES_Descriptor    {    ES_ID    511    muxInfo    MuxInfo    {    fileName    "audios/Sel_95_Sx_3.14.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    116    esDescr    [    ES_Descriptor    {    ES_ID    510    muxInfo    MuxInfo    {    fileName    "images/Sel_95_Sx_3.14.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    119    esDescr    [    ES_Descriptor    {    ES_ID    513    muxInfo    MuxInfo    {    fileName    "audios/Sel_95_Sx_3.15a.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    118    esDescr    [    ES_Descriptor    {    ES_ID    512    muxInfo    MuxInfo    {    fileName    "images/Sel_95_Sx_3.15a.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    121    esDescr    [    ES_Descriptor    {    ES_ID    503    muxInfo    MuxInfo    {    fileName    "audios/Sel_95_Sx_3.15b.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    120    esDescr    [    ES_Descriptor    {    ES_ID    502    muxInfo    MuxInfo    {    fileName    "images/Sel_95_Sx_3.15b.jpg"    }}]}
+
+# ### Book Chapter 5 media files (image & audio)
+ObjectDescriptor    {    objectDescriptorID    123    esDescr    [    ES_Descriptor    {    ES_ID    515    muxInfo    MuxInfo    {    fileName    "audios/Sel_135_Sx_5.2.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    122    esDescr    [    ES_Descriptor    {    ES_ID    514    muxInfo    MuxInfo    {    fileName    "images/Sel_135_Sx_5.2.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    125    esDescr    [    ES_Descriptor    {    ES_ID    517    muxInfo    MuxInfo    {    fileName    "audios/Sel_135_Eik_5.2.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    124    esDescr    [    ES_Descriptor    {    ES_ID    516    muxInfo    MuxInfo    {    fileName    "images/Sel_135_Eik_5.2.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    127    esDescr    [    ES_Descriptor    {    ES_ID    519    muxInfo    MuxInfo    {    fileName    "audios/Sel_138_Sx_5.4.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    126    esDescr    [    ES_Descriptor    {    ES_ID    518    muxInfo    MuxInfo    {    fileName    "images/Sel_138_Sx_5.4.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    129    esDescr    [    ES_Descriptor    {    ES_ID    521    muxInfo    MuxInfo    {    fileName    "audios/Sel_144_Sx_5.6.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    128    esDescr    [    ES_Descriptor    {    ES_ID    520    muxInfo    MuxInfo    {    fileName    "images/Sel_144_Sx_5.6.jpg"    }}]}
+ObjectDescriptor    {    objectDescriptorID    131    esDescr    [    ES_Descriptor    {    ES_ID    503    muxInfo    MuxInfo    {    fileName    "audios/Sel_146_Eik_5.12.mp3"    }}]}
+ObjectDescriptor    {    objectDescriptorID    130    esDescr    [    ES_Descriptor    {    ES_ID    502    muxInfo    MuxInfo    {    fileName    "images/Sel_146_Eik_5.12.jpg"    }}]}
+#ObjectDescriptor    {    objectDescriptorID    1xx    esDescr    [    ES_Descriptor    {    ES_ID    5xx    muxInfo    MuxInfo    {    fileName    "audios/Sel_xx_xx_xx.mp3"    }}]}
+#ObjectDescriptor    {    objectDescriptorID    1xx    esDescr    [    ES_Descriptor    {    ES_ID    5xx    muxInfo    MuxInfo    {    fileName    "images/Sel_xx_xx_x.jpg"    }}]}
+
+
+# ### Book Chapter 1 media files (video)
+ObjectDescriptor    { objectDescriptorID 202 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_21_Eik_1.9.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 204 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_26_Eik_1.16.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 206 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_46_Eik_1.33.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 208 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_48_Eik_1.34.mp4#1" }}]}
+
+# ### Book Chapter 2 media files (video)
+ObjectDescriptor    { objectDescriptorID 210 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_65_Sx_2.11.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 212 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_66_Sx_2.12.mp4.mp4#1" }}]}
+
+# ### Book Chapter 3 media files (video)
+ObjectDescriptor    { objectDescriptorID 214 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_94_Sx_3.13.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 216 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_95_Sx_3.14.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 218 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_95_Sx_3.15a.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 220 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_95_Sx_3.15b.mp4#1" }}]}
+
+# ### Book Chapter 5 media files (video)
+ObjectDescriptor    { objectDescriptorID 222 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_135_Sx_5.2.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 224 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_135_Eik_5.2.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 226 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_138_Sx_5.4.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 228 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_144_Sx_5.6.mp4#1" }}]}
+ObjectDescriptor    { objectDescriptorID 230 esDescr [ ES_Descriptor { ES_ID 2001 muxInfo MuxInfo { fileName "videos/Sel_146_Eik_5.12.mp4#1" }}]}
+#TBRupdateOD
+    ]
+}
